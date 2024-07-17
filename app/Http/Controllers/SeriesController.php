@@ -23,10 +23,7 @@ class SeriesController extends Controller
 
     public function store(Request $request)
     {
-        $name = $request->input('nome');
-        $serie = new Serie();
-        $serie->nome = $name;
-        $serie->save();
+        Serie::create($request->all());
 
         return redirect('/series');
     }
