@@ -11,7 +11,7 @@ class SeriesController extends Controller
 {
     public function index()
     {
-        $series = Serie::query()->orderBy('nome')->get();
+        $series = Serie::all();
         $messageSuccess = session('message.success');
 
         return view('series.index')->with('series', $series)->with('messageSuccess', $messageSuccess);
