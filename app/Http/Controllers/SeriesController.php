@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\SeriesFormRequest;
 use App\Models\Serie;
 use Illuminate\Http\Request;
 
@@ -21,19 +22,30 @@ class SeriesController extends Controller
         return view('series.create');
     }
 
-    public function store(Request $request)
+    public function edit(Serie $series)
     {
-        Serie::create($request->all());
-        session()->flash('message.success', 'Série adicionada com sucesso');
-
-        return to_route('series.index');
+        return view('series.edit')->with('series', $series);
     }
 
-    public function destroy(Request $request)
+    public function update(Serie $series, SeriesFormRequest $request)
     {
-        Serie::destroy($request->series);
-        session()->flash('message.success', 'Série removida com sucesso');
+        $series->fill($request->all());
+        $series->save();
 
-        return to_route('series.index');
+        return to_route('series.index')->with('message.success', "Série '{$series->nome}' atualizada com sucesso");
+    }
+
+    public function store(SeriesFormRequest $request)
+    {
+        $series = Serie::create($request->all());
+
+        return to_route('series.index')->with('message.success', "Série '{$series->nome}' adicionada com sucesso");
+    }
+
+    public function destroy(Serie $series)
+    {
+        $series->delete();
+
+        return to_route('series.index')->with('message.success', "Série '{$series->nome}' removida com sucesso");
     }
 }
