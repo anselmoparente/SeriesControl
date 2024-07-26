@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class Series extends Model
 {
     use HasFactory;
-    protected $fillable = ['nome'];
+    protected $fillable = ['name'];
 
     public function seasons()
     {
@@ -19,7 +19,7 @@ class Series extends Model
     protected static function booted()
     {
         self::addGlobalScope('ordered', function (Builder $queryBuilder) {
-            $queryBuilder->orderBy('nome');
+            $queryBuilder->orderBy('name');
         });
     }
 }
